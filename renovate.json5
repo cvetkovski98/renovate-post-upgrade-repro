@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": ["dockerfile", "custom.regex"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Dockerfile$/"],
+      "matchStrings": ["FROM nginx:(?<currentValue>[^\\s]+)"],
+      "depNameTemplate": "nginx",
+      "datasourceTemplate": "docker",
+    },
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["dockerfile"],
+      "postUpgradeTasks": {
+        "commands": ["commands/mark.sh {{depName}} {{newVersion}}"],
+        "fileFilters": ["hook-fired-*.txt"],
+        "executionMode": "branch",
+      },
+    },
+  ],
+}
