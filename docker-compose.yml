@@ -1,0 +1,18 @@
+services:
+  renovate:
+    image: renovate/renovate:43.136.0@sha256:b8dd2bc412bcabfe641377548863d46d13ac36adaf12103ecb0420c4a1e23261
+    working_dir: /repo
+    volumes:
+      - .:/repo
+    environment:
+      RENOVATE_PLATFORM: github
+      RENOVATE_TOKEN: ${RENOVATE_TOKEN:?set RENOVATE_TOKEN in .env}
+      RENOVATE_REPOSITORIES: '["${GH_REPO:?set GH_REPO in .env}"]'
+      RENOVATE_ONBOARDING: "false"
+      RENOVATE_REQUIRE_CONFIG: "optional"
+      GITHUB_COM_TOKEN: ${GITHUB_COM_TOKEN:?set GITHUB_COM_TOKEN in .env}
+      LOG_LEVEL: debug
+      RENOVATE_ALLOWED_POST_UPGRADE_COMMANDS: '["^commands/"]'
+      RENOVATE_ALLOW_POST_UPGRADE_COMMAND_TEMPLATING: "true"
+      RENOVATE_DRY_RUN: "full"
+      RENOVATE_GIT_AUTHOR: "Oliver Cvetkovski <cvetkovski98@gmail.com>"
